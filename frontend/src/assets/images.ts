@@ -2,7 +2,7 @@ import css from "./images/skills/css.png";
 import cpp from "./images/skills/cpp.png";
 import figma from "./images/skills/figma.png";
 import graphql from "./images/skills/graphql.png";
-import html from "./images/skills/css.png";
+import html from "./images/skills/html.png";
 import javascript from "./images/skills/javascript.png";
 import mu5 from "./images/skills/mu5.png";
 import node from "./images/skills/node.png";

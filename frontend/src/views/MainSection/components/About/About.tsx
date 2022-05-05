@@ -4,13 +4,16 @@ import skillsImg from "../../../../assets/images";
 import SectionTitle from "../../../../components/SectionTitle/SectionTitle";
 import Timeline from "../../../../components/Timeline/Timeline";
 import "./About.scss";
+import file from "../../../../assets/table-of-content.pdf";
 
 interface Information {
   title: string;
   value: string;
+  type: string;
 }
 
 interface Skill {
+  title: string;
   img: string;
 }
 
@@ -18,72 +21,92 @@ const information: Information[] = [
   {
     title: "Birthday",
     value: "25 November 2003",
+    type: "text",
   },
   {
     title: "Age",
     value: "18",
+    type: "text",
   },
   {
     title: "Github",
-    value: "github.com",
+    value: "github.com/NgoPhuocLoi",
+    type: "link",
   },
   {
     title: "Email",
     value: "phuocloi2511@gmail.com",
+    type: "text",
   },
   {
     title: "Degree",
     value: "CS",
+    type: "text",
   },
   {
     title: "Phone",
     value: "+84796863758",
+    type: "text",
   },
   {
     title: "City",
     value: "Can Tho",
+    type: "text",
   },
   {
     title: "Freelance",
     value: "Available",
+    type: "text",
   },
 ];
 const skills: Skill[] = [
   {
     img: skillsImg.css,
+    title: "css",
   },
   {
     img: skillsImg.cpp,
+    title: "cpp",
   },
   {
     img: skillsImg.figma,
+    title: "figma",
   },
   {
     img: skillsImg.graphql,
+    title: "graphql",
   },
   {
     img: skillsImg.html,
+    title: "html",
   },
   {
     img: skillsImg.javascript,
+    title: "javascript",
   },
   {
     img: skillsImg.mu5,
+    title: "mu5",
   },
   {
     img: skillsImg.node,
+    title: "node",
   },
   {
     img: skillsImg.react,
+    title: "react",
   },
   {
     img: skillsImg.redux,
+    title: "redux",
   },
   {
     img: skillsImg.sass,
+    title: "sass",
   },
   {
     img: skillsImg.typescript,
+    title: "typescript",
   },
 ];
 
@@ -96,14 +119,11 @@ const About = () => {
         <div className="about-content padd-15">
           <div className="row">
             <div className="about-text padd-15">
-              <h3>
-                I'm Phuoc Loi and <span>Web Developer</span>
-              </h3>
+              <h3>My name is Ngo Phuoc Loi</h3>
               <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Ratione pariatur aspernatur officiis ipsa fugiat cupiditate
-                voluptas. Nobis repellat eos quo, quos excepturi beatae veniam
-                dolores reiciendis sed voluptates quae similique.
+                I'm studying Software Engineering at Can Tho University. My
+                goals are to become a full-stack developer, build practical web
+                and mobile applications.
               </p>
             </div>
           </div>
@@ -117,7 +137,20 @@ const About = () => {
                 {information.map((info, idx) => (
                   <div className="info-item" key={idx}>
                     <p>
-                      {info.title}: <span>{info.value}</span>
+                      {info.title}:{" "}
+                      <span>
+                        {info.type === "link" ? (
+                          <a
+                            href={`https://${info.value}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {info.value}
+                          </a>
+                        ) : (
+                          info.value
+                        )}
+                      </span>
                     </p>
                   </div>
                 ))}
@@ -129,7 +162,7 @@ const About = () => {
               </div>
               <div className="skill-container">
                 {skills.map((skill, idx) => (
-                  <div className="skill-item" key={idx}>
+                  <div className="skill-item" key={idx} title={skill.title}>
                     <img src={skill.img} alt="img" />
                   </div>
                 ))}
@@ -137,7 +170,7 @@ const About = () => {
             </div>
             <div className="row padd-15">
               <div className="buttons">
-                <a href="#" className="btn">
+                <a href={file} download="myCV" className="btn">
                   Download CV
                 </a>
                 <a href="#contact" className="btn hire-me">

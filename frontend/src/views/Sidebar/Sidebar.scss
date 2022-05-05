@@ -1,28 +1,30 @@
 .aside{
-    width: 270px;
+    width: 100%;
+    height: 85px;
     background: var(--bg-black-100);
     position: fixed;
     left: 0;
     top: 0;
-    height: 100%;
+    right: 0;
+    border-bottom: 1px solid var(--bg-black-50);
+    transition: all 0.25s ease;
     padding: 30px;
     z-index: 10;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    border-right: 1px solid var(--bg-black-50);
-    transition: all 0.25s ease;
+    
 
     .logo{
-        position: absolute;
-        top: 50px;
+        // position: absolute;
+        // top: 50px;
         font-size: 30px;
         text-transform: capitalize;
 
         a{
             color: var(--text-black-900);
             font-weight: 700;
-            padding: 15px 20px;
+            padding: 10px 18px;
             font-size: 30px;
             letter-spacing: 5px;
             position: relative;
@@ -49,22 +51,30 @@
                 right: 0;
             }
         }
+
+        @media screen and (max-width: 850px) {
+            display: none;
+        }
+        @media screen and (max-width: 650px) {
+            display: block;
+        }
     }
 
     .nav{
         margin-top: 5px;
+        display: flex;
 
         li{
-            margin-bottom: 20px;
+            margin-right: 20px;
             display: block;
 
             a{
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: 600;
                 display: block;
                 color: var(--text-black-900);
                 padding: 5px 15px;
-                border-bottom: 1px solid var(--bg-black-50);
+                
 
                 &.active{
                     color: var(--skin-color);
@@ -73,7 +83,20 @@
                 svg{
                     margin-right: 15px;
                 }
+
+                
             }
+
+            @media screen and (max-width: 650px) {
+                margin-right: 0;
+                margin-bottom: 20px;
+                border-bottom: 1px solid var(--bg-black-50);
+             }
+        }
+
+        @media screen and (max-width: 650px) {
+            margin-top: 100px;
+           flex-direction: column;
         }
     }
 
@@ -93,36 +116,15 @@
         display: none;
         transition: all 0.25s ease;
 
-        span{
-            height: 2px;
-            width: 18px;
-            background: var(--skin-color);
-            display: inline-block;
-            position: relative;
-
-            &::before{
-                content: "";
-                height: 2px;
-                width: 18px;
-                background: var(--skin-color);
-                position: absolute;
-                top: -6px;
-                left: 0;
-
-            }
-            &::after{
-                content: "";
-                height: 2px;
-                width: 18px;
-                background: var(--skin-color);
-                position: absolute;
-                top: 6px;
-                left: 0;
-
-            }
+        svg{
+            // font-size: 20px;
+            color: var(--skin-color);
+            width: 100%;
+            height: 100%;
+            padding: 6px;
         }
 
-        @media screen and (max-width:1199px) {
+        @media screen and (max-width:650px) {
             display: flex;
         }
 
@@ -132,11 +134,20 @@
         }
     }
 
-    &.open{
-        left: 0;
+    @media screen and (max-width: 850px) {
+        justify-content: center;
+        // height: 70px;
     }
 
-    @media screen and (max-width:1199px) {
+    @media screen and (max-width: 650px) {
+        width: 270px;
+        height: 100%;
         left: -270px;
+        flex-direction: column;
+        justify-content: flex-start;
+        border-right: 1px solid var(--bg-black-50);
+        &.open{
+            left: 0;
+        }
     }
 }

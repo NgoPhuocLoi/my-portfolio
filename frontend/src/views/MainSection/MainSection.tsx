@@ -11,9 +11,9 @@ const MainSection = () => {
       <section className="about section" id="about">
         <About />
       </section>
-      <section className="service section" id="services">
+      {/* <section className="service section" id="services">
         <Service />
-      </section>
+      </section> */}
       <section className="portfolio section" id="portfolio">
         <Portfolio />
       </section>
