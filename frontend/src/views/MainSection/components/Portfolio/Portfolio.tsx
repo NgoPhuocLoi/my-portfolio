@@ -1,10 +1,28 @@
-import React from "react";
-import "./Portfolio.scss";
-import projectThumb from "../../../../assets/images/project1.png";
+import React, { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
-import skillsImg from "../../../../assets/images";
+import { client, urlFor } from "../../../../sanityClient";
+import "./Portfolio.scss";
+
+interface Project {
+  title: string;
+  description: string;
+  link: string;
+  thumb: {};
+  languages: {}[];
+}
 
 const Portfolio = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const query = '*[_type == "projects"]';
+    const fetchData = async () => {
+      const data = await client.fetch(query);
+
+      setProjects(data);
+    };
+    fetchData();
+  }, []);
   return (
     <div className="container">
       <div className="row">
@@ -17,84 +35,39 @@ const Portfolio = () => {
           <h2>My Last Project: </h2>
         </div>
       </div>
-
       <div className="row">
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
-            </div>
+        {projects.map((project, index) => (
+          <div key={index} className="portfolio-item padd-15">
+            <div className="portfolio-item-inner shadow-dark">
+              <div className="portfolio-img">
+                <img src={urlFor(project.thumb) as unknown as string} alt="" />
+              </div>
 
-            <div className="portfolio-info">
-              <h3 className="portfolio-title">My Furniture</h3>
-              <p className="portfolio-desc">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Suscipit accusamus cupiditate quo assumenda modi est fugiat
-                obcaecati quas nulla corrupti, laboriosam maxime blanditiis
-                itaque quam quasi quod tempore autem animi!
-              </p>
-              
-            </div>
+              <div className="portfolio-info">
+                <h3 className="portfolio-title">{project.title}</h3>
+                <p className="portfolio-desc">{project.description}</p>
+              </div>
 
-            <ul className="portfolio-tech">
-                <li>
-                    <img src={skillsImg.css} alt="" />
-                </li>
-                <li>
-                    <img src={skillsImg.html} alt="" />
-                </li>
-                <li>
-                    <img src={skillsImg.javascript} alt="" />
-                </li>
-                
-            </ul>
+              <ul className="portfolio-tech">
+                {project.languages.map((lang, idx) => (
+                  <li key={idx}>
+                    <img src={urlFor(lang) as unknown as string} alt="" />
+                  </li>
+                ))}
+              </ul>
 
-            <div className="portfolio-actions">
-              <a
-                href="https://ngophuocloi.github.io/MyFurniture"
-                target="_blank"
-                rel="noreferrer"
-              ><AiFillEye></AiFillEye>View </a>
-            </div>
-
-            
-          </div>
-        </div>
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
+              <div className="portfolio-actions">
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <AiFillEye></AiFillEye>View{" "}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
-            </div>
-          </div>
-        </div>
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
-            </div>
-          </div>
-        </div>
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
-            </div>
-          </div>
-        </div>
-        <div className="portfolio-item padd-15">
-          <div className="portfolio-item-inner shadow-dark">
-            <div className="portfolio-img">
-              <img src={projectThumb} alt="" />
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

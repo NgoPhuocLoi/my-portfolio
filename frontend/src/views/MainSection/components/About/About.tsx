@@ -1,116 +1,43 @@
-import React from "react";
-import { AiFillCalendar } from "react-icons/ai";
+import React, { useState } from "react";
 import skillsImg from "../../../../assets/images";
+import file from "../../../../assets/table-of-content.pdf";
 import SectionTitle from "../../../../components/SectionTitle/SectionTitle";
 import Timeline from "../../../../components/Timeline/Timeline";
 import "./About.scss";
-import file from "../../../../assets/table-of-content.pdf";
+import {client, urlFor} from "../../../../sanityClient"
+import { useEffect } from "react";
 
 interface Information {
   title: string;
   value: string;
-  type: string;
 }
 
 interface Skill {
   title: string;
-  img: string;
+  thumb: object;
 }
 
-const information: Information[] = [
-  {
-    title: "Birthday",
-    value: "25 November 2003",
-    type: "text",
-  },
-  {
-    title: "Age",
-    value: "18",
-    type: "text",
-  },
-  {
-    title: "Github",
-    value: "github.com/NgoPhuocLoi",
-    type: "link",
-  },
-  {
-    title: "Email",
-    value: "phuocloi2511@gmail.com",
-    type: "text",
-  },
-  {
-    title: "Degree",
-    value: "CS",
-    type: "text",
-  },
-  {
-    title: "Phone",
-    value: "+84796863758",
-    type: "text",
-  },
-  {
-    title: "City",
-    value: "Can Tho",
-    type: "text",
-  },
-  {
-    title: "Freelance",
-    value: "Available",
-    type: "text",
-  },
-];
-const skills: Skill[] = [
-  {
-    img: skillsImg.css,
-    title: "css",
-  },
-  {
-    img: skillsImg.cpp,
-    title: "cpp",
-  },
-  {
-    img: skillsImg.figma,
-    title: "figma",
-  },
-  {
-    img: skillsImg.graphql,
-    title: "graphql",
-  },
-  {
-    img: skillsImg.html,
-    title: "html",
-  },
-  {
-    img: skillsImg.javascript,
-    title: "javascript",
-  },
-  {
-    img: skillsImg.mu5,
-    title: "mu5",
-  },
-  {
-    img: skillsImg.node,
-    title: "node",
-  },
-  {
-    img: skillsImg.react,
-    title: "react",
-  },
-  {
-    img: skillsImg.redux,
-    title: "redux",
-  },
-  {
-    img: skillsImg.sass,
-    title: "sass",
-  },
-  {
-    img: skillsImg.typescript,
-    title: "typescript",
-  },
-];
 
 const About = () => {
+  const [information, setInformation] = useState<Information[]>([])
+  const [skills, setSkills] = useState<Skill[]>([])
+
+  useEffect(() => {
+    const infoQuery = '*[_type == "information"]'
+    const skillQuery = '*[_type == "skills"]'
+
+
+    const fetchData = async () => {
+      const infoData = await client.fetch(infoQuery)
+      setInformation(infoData)
+      const skillsData = await client.fetch(skillQuery)
+      setSkills(skillsData)
+
+    }
+
+    fetchData()
+    
+  }, [])
   return (
     <div className="container">
       <SectionTitle text="About Me" />
@@ -139,17 +66,8 @@ const About = () => {
                     <p>
                       {info.title}:{" "}
                       <span>
-                        {info.type === "link" ? (
-                          <a
-                            href={`https://${info.value}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {info.value}
-                          </a>
-                        ) : (
-                          info.value
-                        )}
+                        
+                        {info.value}
                       </span>
                     </p>
                   </div>
@@ -163,7 +81,7 @@ const About = () => {
               <div className="skill-container">
                 {skills.map((skill, idx) => (
                   <div className="skill-item" key={idx} title={skill.title}>
-                    <img src={skill.img} alt="img" />
+                    <img src={urlFor(skill.thumb) as unknown as string} alt="img" />
                   </div>
                 ))}
               </div>

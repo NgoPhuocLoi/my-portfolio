@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaHome, FaUserAlt, FaTimes } from "react-icons/fa";
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs";
+import { FaHome, FaUserAlt, FaTimes, FaLaptopHouse } from "react-icons/fa";
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdWork } from "react-icons/md";
 import "./Sidebar.scss";
@@ -46,6 +47,13 @@ const Sidebar = () => {
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [lastScroll, setLastScroll] = useState<number>(0);
   const [isOpenSidebar, setOpenSidebar] = useState<boolean>(false);
+  const [theme, setTheme] = useState<string>(localStorage.getItem("theme") as string || "light");
+
+  useEffect(() => {
+    if(theme == "dark"){
+      document.body.classList.add("dark")
+    }
+  }, [])
 
   const toggleOpenMenu = () => {
     togglerRef.current.classList.toggle("active");
@@ -87,8 +95,40 @@ const Sidebar = () => {
     }
   }, [scrollTop]);
 
+  //toggle theme
+  const toggleTheme = () => {
+    if(theme === "dark"){
+      setTheme("light")
+      document.body.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+    }else{
+      setTheme("dark")
+      document.body.classList.add("dark")
+      localStorage.setItem("theme", "dark")
+    }
+    
+  };
+
+  // handle click on overlay menu
+  useEffect(() => {
+    const handleClickOverlay = () => {
+      togglerRef.current.classList.remove("active");
+      asideRef.current.classList.remove("open");
+      setOpenSidebar(false);
+    };
+    document.body.addEventListener("click", handleClickOverlay);
+
+    return () => {
+      document.body.removeEventListener("click", handleClickOverlay);
+    };
+  }, []);
+
   return (
-    <div className="aside" ref={asideRef}>
+    <div
+      className="aside"
+      ref={asideRef}
+      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+    >
       <div className="logo">
         <a href="#">NPLoi</a>
       </div>
@@ -105,6 +145,14 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
+
+      <div className="toggle-theme" onClick={toggleTheme}>
+        {theme === "dark" ? (
+          <BsFillSunFill></BsFillSunFill>
+        ) : (
+          <BsFillMoonFill></BsFillMoonFill>
+        )}
+      </div>
     </div>
   );
 };
