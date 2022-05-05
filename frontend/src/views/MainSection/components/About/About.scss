@@ -50,12 +50,13 @@
           color: var(--text-black-900);
           border-bottom: 1px solid var(--bg-black-50);
 
-          span, a {
+          span {
             font-weight: 400;
             color: var(--text-black-700);
             font-size: 14px;
             margin-left: 4px;
             display: inline-block;
+            overflow-wrap: break-word;
 
             @media screen and (max-width: 1199px) {
               display: block;
